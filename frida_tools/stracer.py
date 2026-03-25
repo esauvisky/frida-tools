@@ -144,6 +144,8 @@ class StraceApplication(ConsoleApplication):
         parser.add_argument("--limit", type=int, default=5000, help="Max events kept in UI (default: 5000)")
         parser.add_argument("--auto-resolve", action="store_true", default=False,
                             help="Automatically resolve stack traces")
+        parser.add_argument("--filter", dest="filter_text", default="",
+                            help="Initial filter expression")
 
     def _initialize(self, parser, options, args) -> None:
         self._files = options.files
@@ -154,6 +156,7 @@ class StraceApplication(ConsoleApplication):
         self._included_names_requested = options.include
         self._limit = options.limit
         self._auto_resolve = options.auto_resolve
+        self._filter_text = options.filter_text
 
         if self._files is None and self._pids is None and self._users is None and self._uids is None:
             raise ValueError("At least one target must be specified (use --file, --pid, --user, and/or --uid).")
